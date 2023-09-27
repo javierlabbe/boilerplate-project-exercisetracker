@@ -11,10 +11,10 @@ const getLogById = async (reqBody) => {
     let {id, from, to, limit} = reqBody;
     let dateObj = {};
     if(from) {
-      dateObj["$gte"] = new Date(from);
+      dateObj["$gte"] = new Date(from); //$gte = mayor o igual
     }
     if(to) {
-      dateObj["$lte"] = new Date(to);
+      dateObj["$lte"] = new Date(to); //$kte = menor o igual
     }
     let filter = {
       userId: id
