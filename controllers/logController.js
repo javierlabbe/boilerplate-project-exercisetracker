@@ -56,9 +56,9 @@ const getLogById = async (reqBody) => {
     };
     } else {
        userLog = {
+          _id: reqBody.id,
           username: user.username,
           count: log.length,
-          _id: reqBody.id,
           log: log
        };
     }

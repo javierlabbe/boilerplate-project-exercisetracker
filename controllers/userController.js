@@ -13,7 +13,9 @@ const createUser = async (username) => {
       let savedUser = await newUser.save();
       return savedUser;
   } catch (error) {
-    throw error;
+    console.error(error)
+    let user = await User.find({username: username});
+    return user[0];
   }
 };  
 

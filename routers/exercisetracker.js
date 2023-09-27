@@ -37,11 +37,11 @@ routerExTracker.post('/:_id/exercises', (req, res) => {
       console.log('ejercicio guardado exitosamente:', savedExercise);
           let {description, duration, date, userId} = savedExercise;
           res.json({
+            _id: userId,
             username: username,
             description: description,
             duration: duration,
-            date: date,
-            _id: userId
+            date: date
           })
         })
         .catch((error) => {
@@ -85,14 +85,5 @@ routerExTracker.get('/', (req, res) => {
       console.error(error);
     });
 })
-
-/* //prueba
-routerExTracker.post('/prueba', (req, res) => {
-  let reqBody = req.body;
-  console.log(reqBody)
-  getLogById(reqBody)
-    .then((result) => console.log(result))
-    .catch((error) => console.log(error))
-}) */
 
 module.exports = routerExTracker;
