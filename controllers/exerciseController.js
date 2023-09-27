@@ -5,11 +5,11 @@ const { ejercicioSchema } = require(__dirname+'/../models/monSchema.js')
 let Exercise = mongoose.model("exercise", ejercicioSchema);
 
 //Funcion para crear y guardar un usuario
-const createExercise = async (reqBody) => {
-  let  { [":_id"]: id, description, duration, date} = reqBody; 
+const createExercise = async (reqBody, id) => {
+  let  {description, duration, date} = reqBody; 
   const opcionesDeFecha = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };//[":_id": id] asigna el valor de la propiedad :_id a id
   console.log(reqBody)
-  if(date == '') {
+  if(date == '' || date == undefined) {
     const today = new Date();
     const year = today.getFullYear(); 
     const month = (today.getMonth() + 1).toString().padStart(2, '0');

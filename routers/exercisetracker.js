@@ -28,11 +28,12 @@ routerExTracker.post('/', (req, res) => {
 //para asignar un ejercicio a un user
 routerExTracker.post('/:_id/exercises', (req, res) => {
   let reqBody = req.body;
+  let id = req.params._id;
 
-  getUserById(reqBody[":_id"])
+  getUserById(id)
     .then((user) => {
       let {username} = user;
-      createExercise(reqBody)
+      createExercise(reqBody, id)
         .then((savedExercise) => {
       console.log('ejercicio guardado exitosamente:', savedExercise);
           let {description, duration, date, userId} = savedExercise;
@@ -57,7 +58,8 @@ routerExTracker.post('/:_id/exercises', (req, res) => {
 routerExTracker.get('/:_id/logs', (req, res) => {
    //query params
    let {from, to, limit} = req.query;
-
+   console.log("from:", from)
+   console.log("to:", to)
    let reqBody = {
      id: req.params._id,
      from: from,
