@@ -58,8 +58,7 @@ routerExTracker.post('/:_id/exercises', (req, res) => {
 routerExTracker.get('/:_id/logs', (req, res) => {
    //query params
    let {from, to, limit} = req.query;
-   console.log("from:", from)
-   console.log("to:", to)
+
    let reqBody = {
      id: req.params._id,
      from: from,

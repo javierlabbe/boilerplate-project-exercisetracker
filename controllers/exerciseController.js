@@ -7,26 +7,29 @@ let Exercise = mongoose.model("exercise", ejercicioSchema);
 //Funcion para crear y guardar un usuario
 const createExercise = async (reqBody, id) => {
   let  {description, duration, date} = reqBody; 
-  const opcionesDeFecha = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };//[":_id": id] asigna el valor de la propiedad :_id a id
-  console.log(reqBody)
+ 
   if(date == '' || date == undefined) {
-    const today = new Date();
-    const year = today.getFullYear(); 
-    const month = (today.getMonth() + 1).toString().padStart(2, '0');
-    const day = today.getDate().toString().padStart(2, '0'); 
-    date = `${year}-${month}-${day}`;
+    date = new Date();
+  } else {
+    date = new Date(date) //date es recibido como string, aqui lo pasamos a Date
   }
 
   try {
     let newExercise = new Exercise({
       userId: id,
-      date: new Date(date).toDateString(undefined, opcionesDeFecha),
-      duration: duration,
+      date: date,//.toDateString(undefined, opcionesDeFecha),
+      duration: parseInt(duration),
       description: description
     });
     
     let savedExercise = await newExercise.save();
-    return savedExercise;
+    let response = {
+      userId: id,
+      date: date.toDateString(),
+      duration: parseInt(duration),
+      description: description
+    }
+    return response;
   } catch (error) {
     throw error;
   }

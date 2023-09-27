@@ -5,63 +5,39 @@ let Exercise = mongoose.model("exercise", ejercicioSchema);
 let User = mongoose.model("User", userSchema);
 
 const getLogById = async (reqBody) => {
-  //reqBody = {id, from, to, limit}
-  let userLog;
-  let count = 0;
-  let log = [];
-
   try {
     let user = await User.findById(reqBody.id);
-    let exercises = await Exercise.find({userId: reqBody.id});
-    
-    /* exercises.map((exercise) => {
-              count += 1;
-              log.push({
-                description: exercise.description,
-                duration: exercise.duration,
-                date: exercise.date,
-              })
-            }, 0) */
 
-    if(reqBody.limit != undefined) {
-      exercises.map((exercise) => {
-              if(count < reqBody.limit) {
-                log.push({
-                description: exercise.description,
-                duration: exercise.duration,
-                date: exercise.date,
-                })
-              }
-              count += 1;
-            }, 0)
-    } else {
-      exercises.map((exercise) => {
-              count += 1;
-              log.push({
-                description: exercise.description,
-                duration: exercise.duration,
-                date: exercise.date,
-              })
-            }, 0)
+    let {id, from, to, limit} = reqBody;
+    let dateObj = {};
+    if(from) {
+      dateObj["$gte"] = new Date(from);
+    }
+    if(to) {
+      dateObj["$lte"] = new Date(to);
+    }
+    let filter = {
+      userId: id
+    }
+    if(from || to) {
+      filter.date = dateObj;
     }
 
-    if(reqBody.from && reqBody.to != undefined) {
-      let filLog = log.filter((exercise) => (exercise.date >= reqBody.from && exercise.date <= reqBody.to));
-      
-      userLog = {
+    let exercises = await Exercise.find(filter).limit(+limit ?? 500);
+    console.log(exercises)
+    const log = exercises.map( e => ({
+      description: e.description,
+      duration: e.duration,
+      date: e.date.toDateString()
+    }))
+
+    let userLog = {
       username: user.username,
-      count: filLog.length,
-      _id: reqBody.id,
-      log: filLog
-    };
-    } else {
-       userLog = {
-          _id: reqBody.id,
-          username: user.username,
-          count: log.length,
-          log: log
-       };
+      count: exercises.length,
+      _id: user._id,
+      log
     }
+
     return userLog;
   } catch(error) {
     throw error;
