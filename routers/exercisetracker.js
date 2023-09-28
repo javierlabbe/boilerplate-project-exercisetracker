@@ -30,7 +30,7 @@ routerExTracker.post('/:_id/exercises', (req, res) => {
   let reqBody = req.body;
   let id = req.params._id;
 
-  getUserById(id)
+  getUserById(id) //promesa, funcion asincrona. Se usa cuando no se sabe el tiempo de respuesta
     .then((user) => {
       let {username} = user;
       createExercise(reqBody, id)
@@ -60,7 +60,7 @@ routerExTracker.get('/:_id/logs', (req, res) => {
    let {from, to, limit} = req.query;
 
    let reqBody = {
-     id: req.params._id,
+     id: req.params._id, //url param
      from: from,
      to: to,
      limit: limit

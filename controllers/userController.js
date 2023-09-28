@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { userSchema } = require(__dirname+'/../models/monSchema.js')
 
-let User = mongoose.model("User", userSchema);
+let User = mongoose.model("User", userSchema); //instancia del esquema User para entidad newUser.
 
 //Funcion para crear y guardar un usuario
 const createUser = async (username) => {

@@ -12,9 +12,9 @@ app.get('/', (req, res) => {
 });
 
 //Endpoints
-const routerExTracker = require(__dirname+'/routers/exercisetracker.js')
+const routerExTracker = require(__dirname+'/routers/exercisetracker.js') //importando modulo del router
 
-app.use('/api/users', routerExTracker);
+app.use('/api/users', routerExTracker); //para usar las rutas definidas en router
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
